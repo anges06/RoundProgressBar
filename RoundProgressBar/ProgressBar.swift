@@ -14,11 +14,16 @@ class ProgressBar: UIView {
     var shapeLayer: CAShapeLayer!
     var progressLayer: CAShapeLayer!
     
+    var lbl: UILabel!
+    
     var progress: Float = 0
     {
         willSet(Value)
         {
             progressLayer.strokeEnd = CGFloat(Value)
+            
+            //adjust the format to your requirements
+            lbl.text = String(format: "%0.0f", Value * 100)
         }
     }
     
@@ -27,17 +32,19 @@ class ProgressBar: UIView {
         super.init(frame: frame)
         background = UIBezierPath()
         self.Shape()
+        self.CreateProgressLabel()
     }
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         background = UIBezierPath()
         self.Shape()
+        self.CreateProgressLabel()
     }
     
     func Shape()
     {
-        createCircle()
+        CreateCircleProgress()
         
         shapeLayer = CAShapeLayer()
         shapeLayer.path = background.cgPath
@@ -57,12 +64,24 @@ class ProgressBar: UIView {
         self.layer.addSublayer(progressLayer)
     }
     
-    private func createCircle()
+    func CreateProgressLabel()
+    {
+        let height:CGFloat = 25
+        
+        lbl = UILabel(frame: CGRect(x: 0, y: self.frame.height/2 - height/2, width: self.frame.width, height: height))
+        lbl.textAlignment = .center
+        lbl.font = lbl.font.withSize(25)
+        lbl.text = "0"
+        
+        self.addSubview(lbl)
+    }
+    
+    private func CreateCircleProgress()
     {
         let x = self.frame.width / 2
         let y = self.frame.height / 2
         let center = CGPoint(x: x, y: y)
-        let AddRadius: CGFloat = 30
+        let AddRadius: CGFloat = 25
         
         background.addArc(withCenter: center, radius: x/CGFloat(2) + AddRadius, startAngle: CGFloat(-1.5), endAngle: CGFloat(4.78), clockwise: true)
         background.close()
