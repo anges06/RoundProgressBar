@@ -12,7 +12,6 @@ class ViewController: UIViewController {
 
     @IBOutlet var MainView: UIView!
     @IBOutlet weak var ProgressArea: ProgressBar!
-    @IBOutlet weak var LblProgress: UILabel!
     @IBOutlet weak var Stepper: UIStepper!
     
     override func viewDidLoad() {
@@ -33,6 +32,7 @@ class ViewController: UIViewController {
     
     @IBAction func StepperClicked(_ sender: Any)
     {
+        //adjust the value to your requirements
         if(Stepper.value < 0.1)
         {
             ProgressArea.progress = 0.0
@@ -41,8 +41,6 @@ class ViewController: UIViewController {
         {
            ProgressArea.progress = Float(Stepper.value)
         }
-        
-        LblProgress.text = String(format: "%0.0f", Stepper.value * 100)
         
         print(Stepper.value)
     }
